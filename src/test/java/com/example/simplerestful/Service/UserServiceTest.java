@@ -1,6 +1,8 @@
 package com.example.simplerestful.Service;
 
 import com.example.simplerestful.Entity.User;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,13 +23,17 @@ public class UserServiceTest {
     @Autowired
     EntityManager em;
 
-
-    @Test
-    void read_test() {
-        // given
+    public User createUser(){
         User user = new User();
         user.setUsername("호진");
         em.persist(user);
+
+        return user;
+    }
+    @Test
+    void read_test() {
+        // given
+        User user = createUser();
 
         User savedUser = userService.findById(user.getId());
         assertThat(savedUser.getUsername()).isEqualTo(user.getUsername());
