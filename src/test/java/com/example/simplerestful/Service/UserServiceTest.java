@@ -11,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 import static org.assertj.core.api.Assertions.*;
 
 @Transactional
@@ -22,6 +25,13 @@ public class UserServiceTest {
 
     @Autowired
     EntityManager em;
+    static{
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public User createUser(){
         User user = new User();
@@ -32,10 +42,16 @@ public class UserServiceTest {
     }
     @Test
     void read_test() {
-        // given
-        User user = createUser();
+        try(Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/user?serverTimezone=Asia/Seoul&characterEncoding=UTF-8", "root", "12345"
+        )) {
+            // given
+            User user = createUser();
 
-        User savedUser = userService.findById(user.getId());
-        assertThat(savedUser.getUsername()).isEqualTo(user.getUsername());
+            User savedUser = userService.findById(user.getId());
+            assertThat(savedUser.getUsername()).isEqualTo(user.getUsername());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
