@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 import static org.assertj.core.api.Assertions.*;
 
 @Transactional
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceTest {
 
     @Autowired
