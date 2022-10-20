@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import static org.assertj.core.api.Assertions.*;
 
 @Transactional
+@SpringBootTest
 public class UserServiceTest {
 
     @Autowired
@@ -30,6 +31,5 @@ public class UserServiceTest {
 
         User savedUser = userService.findById(user.getId());
         assertThat(savedUser.getUsername()).isEqualTo(user.getUsername());
-
     }
 }
